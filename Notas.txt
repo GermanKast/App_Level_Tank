@@ -1,0 +1,115 @@
+#41c1fb // blue
+#ffea00 // yellow
+#ff5733 // red
+
+/**********************************************************/
+id elementos
+
+	progressbar // tipo div
+		valor a modificar = aria-valuenow="75"
+		valor a modificar = style="width: 75%"
+
+	heightLiquid // tipo span
+		valor a modificar = innerHTML
+
+	contentLiters // tipo span
+		valor a modificar = innerHTML
+
+	exchangeRate // tipo span
+		valor a modificar = innerHTML		
+
+	tankConfig // tipo form
+	
+		tankHeight // tipo input number
+			valor a modificar = value
+
+		tankDiameter // tipo input number
+			valor a modificar = value
+
+
+		sensorHeight // tipo input number
+			valor a modificar = value
+
+
+		dangerTopLevel // tipo input number
+			valor a modificar = value
+
+		dangerBottomLevel // tipo input number
+			valor a modificar = value
+
+		warningTopLevel // tipo input number
+			valor a modificar = value
+
+		warningBottomLevel // tipo input number
+			valor a modificar = value
+
+
+
+
+
+
+
+
+/**********************************************************/
+
+
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Understood</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), options);
+
+		function launchModal(){
+			myModal.show();
+		}
+</script>
+  </body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+

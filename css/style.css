@@ -1,0 +1,175 @@
+/**************************************************************************************************************************
+ *	Css para aplicación nivel de tanque
+**************************************************************************************************************************/
+
+/*level tank = Full 50px, Low 360px*/
+/*color level = #41c1fb // blue, #ffea00 // yellow, #ff5733 // red*/
+/*top: alto maximo antes 50*/
+:root {
+	--tk1OldTop: 360px;
+	--tk1NewTop: 15px;
+	--colorStart: #ffea00;
+	--colorEnd: #41c1fb;
+}
+.tank-container
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70vh;
+				background-color: #f9f9f9; /* Fondo claro - original #f5f5f5*/
+	gap: 50px;
+}
+.glass
+{
+	position: relative;
+}
+.glass .inner /*Cuerpo cilindro del tanque*/
+{
+	position: relative;
+	width: 200px;
+	height: 400px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 40px;
+	/*border: 8px solid #2b47ff1f;*/
+				border: 8px solid #aaaaaa4f;
+				border-top: none;
+	/*
+				animation: animateColor 5s linear infinite;
+	animation-delay: calc(var(--i) * -1.25s);
+				*/
+}
+		/*
+@keyframes animateColor
+{
+	0%
+	{
+		filter: hue-rotate(0deg);
+	}
+	100%
+	{
+		filter: hue-rotate(360deg);
+	}
+}
+		*/
+.glass .inner::before /*borde superior (boca) del tanque*/
+{
+	content: '';
+	position: absolute;
+	top: -5px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: calc(100% + 10px);
+	height: 30px;
+				/*#2b47ff1f*/
+	/*border: 10px solid #999;*/
+				border: 10px solid #aaaaaa85;
+	border-radius: 50%;
+				/*box-shadow: 0 15px 0 #777;*/
+				box-shadow: 0 15px 0 #77777788;
+				z-index: 2;
+}
+.glass .inner::after /*Brillo del tanque*/
+{
+	content: '';
+	position: absolute;
+	top: 70px;
+	left: 30px;
+	width: 50px;
+	height: 250px;
+	background: rgba(255, 255, 255, 0.1);
+				z-index: 3;
+}
+.liquid /*cilindro/cuerpo del liquido*/
+{
+	position: absolute;
+	top: 360px; /*inicia en nivel bajo*/
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+	background: #41c1fb; /*empieza rojo en el nivel mas bajo por la clase "red"*/
+	border-bottom-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+	/*filter: drop-shadow(0 0 80px #41c1fb);*/
+	/*animation: animateLiquid 5s linear infinite;*/
+	/*animation-delay: calc(var(--i) * -1.25s);*/
+				z-index: 1;
+	transition: background 1s;
+}
+@keyframes levelAnimation {
+	from {top: var(--tk1OldTop);}
+	to {top: var(--tk1NewTop);}
+	/* 
+	--tk1OldTop: 370px; // low
+	--tk1NewTop: 50px; // full
+	*/
+}
+.levelAnimation
+{
+	animation-name: levelAnimation;
+	animation-duration: 10s;
+}
+
+
+/*
+@keyframes colorAnimation {
+	from {background: var(--colorStart);}
+	to {background: var(--colorEnd);}
+}
+.colorAnimation
+{
+	animation-name: colorAnimation;
+	animation-duration: 5s;
+}
+
+@keyframes animateLiquid {
+	0%, 20%
+	{
+		top: 50px;
+	}
+	50%, 70%
+	{
+		top: 320px;
+	}
+	100%
+	{
+		top: 50px;
+	}
+}
+*/
+.liquid::before /*rectangulo superior liquido*/
+{
+	content: '';
+	position: absolute;
+	top: -10px;
+	width: 100%;
+	height: 20px;
+	border-radius: 50%;
+	background: #1fa4e0;
+	transition: background 1s;
+}
+		/* Estilos para los diferentes colores del líquido */
+.liquid.blue {
+	background: #41c1fb;
+	/*filter: drop-shadow(0 0 80px #41c1fb);*/
+}
+.liquid.yellow {
+	background: #ffea00;
+	/*filter: drop-shadow(0 0 80px #ffea00);*/
+}
+.liquid.red {
+	background: #ff5733;
+	/*filter: drop-shadow(0 0 80px #ff5733);*/
+}
+		.liquid.blue::before {
+	background: #1fa4e0;
+	/*filter: drop-shadow(0 0 80px #1fa4e0);*/
+}
+.liquid.yellow::before {
+	background: #ccbb00;
+	/*filter: drop-shadow(0 0 80px #ccbb00);*/
+}
+.liquid.red::before {
+	background: #cc4629;
+	/*filter: drop-shadow(0 0 80px #cc4629);*/
+}
