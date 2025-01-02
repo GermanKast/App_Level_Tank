@@ -15,8 +15,9 @@ const minLevel = 360;
 */
 
 // Valores principales
-let currSensorVal = 200; // valor del sensor en mm (min 200- max 3250)
+let currSensorVal = 500; // valor del sensor en mm (min 200- max 3250)
 let levelHeight = ""; // altura del nivel en mm
+let serverResp = ""; // datos devueltos del servidor (fecha, nivel)
 
 // Porcentajes
 let nextLevelPercent = 50; // %
@@ -27,9 +28,9 @@ let nextCssTopLevel = 195; // CSS min: 375 - max: 15
 let currCssTopLevel = 360; // CSS min: 375 - max: 15
 
 // Formulario
-let tankHeight = document.getElementById("tankHeight").value;
-let tankDiameter = document.getElementById("tankDiameter").value;
-let sensorHeight = document.getElementById("sensorHeight").value;
+let tankHeight = document.getElementById("tankHeight").value; // 305 cm
+let tankDiameter = document.getElementById("tankDiameter").value; // 210 cm
+let sensorHeight = document.getElementById("sensorHeight").value; // 20 cm
 let dangerTopLevel = document.getElementById("dangerTopLevel").value; //95%
 let dangerBottomLevel = document.getElementById("dangerBottomLevel").value; //5%
 let warningTopLevel = document.getElementById("warningTopLevel").value; //10%
@@ -64,44 +65,15 @@ let modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
    *                    y "accessKey" con las credenciales de acceso.
    *                    Tambien pueden ser enviados datos adicionales.
    ****************************************************************************************/
-  function getRequest( request ){
-
-    toogleLoadingPage();
+  function getRequest( ){
 
     google.script.run
     .withSuccessHandler( function( response ){
-      if( response.allowAccess ){
-        saveKey( response.accessKey );
-        showHiddenNavbarOptions();
-        updateHTMLContent( response.html );
-      }else{
-        alertModal( response.msg );
-      }
-      toogleLoadingPage();
+			serverResp = response;
+			updateAppLevelTank();
     })
-    .withFailureHandler(errorHandler)
-    .controller( request );
-  }
-
-  /*****************************************************************************************************
-   * Crea el objeto JS con los datos necesarios para la solicitud del nuevo contenido al servidor
-   *****************************************************************************************************/
-  function submitScheduleTypeForm(){
-
-    event.preventDefault();
-    event.stopPropagation();
-    $('#alertModal').modal('hide'); // cerrar modal
-
-    const request = {
-      action: "operator",
-      accessKey: {
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
-        scheduleType: document.getElementById('slctScheduleType').value
-      }
-    };
-
-    getRequest( request );
+    //.withFailureHandler(errorHandler)
+    .getSensorVal();
   }
 
 /**********************************************************************************************************/
@@ -111,6 +83,8 @@ let modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
  * "currSensorVal" para ejecutarse correctamente.
  **********************************************************************************************/
 function updateAppLevelTank(){
+
+	currSensorVal = serverResp.level;
 
 	calcNextLevelPercent();
 	updateLiquidLevelAnimation();
@@ -128,13 +102,13 @@ function updateTableData(){
 	tdContentLiters.innerHTML = getClrNumber( contentCm3 / 1000 )+" Litros";
 	tdContentM3.innerHTML = getClrNumber( contentCm3/ 1000000 )+" m<sup>3</sup>";
 	tdExchangeRate.innerHTML = "en proceso";
-	tdLastUpdate.innerHTML = "actualizando...";
+	tdLastUpdate.innerHTML = serverResp.date;
 }
 
 /*********************************************************************************************************
  * Formatea el numero pasado como parametro con parte entera en negrita
  * y dos decimales en la parte final (con el proposito que sea mas legible)
- * @param {number} number numeroa formatear
+ * @param {number} number numero a formatear
  * @returns String HTML
  *********************************************************************************************************/
 function getClrNumber( number ){
@@ -270,7 +244,7 @@ function checkLevelPosition() {
 		if( !element.classList.contains("yellow") ){
 			element.classList.remove("blue", "red");
 			element.classList.add("yellow");
-			launchAlert("warning");
+			//launchAlert("warning");
 		}
 		
 	} else {
@@ -354,3 +328,11 @@ function playAudio( audioType ) {
 
 	audio.play();
 }
+
+/***********************************************************************************************
+ * Consulta el nivel en el servidor inmediatamente al cargar y actualiza la aplicación
+ ***********************************************************************************************/
+window.onload = function() {
+	getRequest(); // Llamar inmediatamente al cargar
+	setInterval(getRequest, 30000); // Llamar cada 30 segundos
+};
